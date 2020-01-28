@@ -1,0 +1,85 @@
+! ---------------------- Configuración básica de la arch wiki ----------------------
+XTerm*termName: xterm-256color
+XTerm*locale: true
+XTerm*utf8: 1
+XTerm*metaSendsEscape: true
+
+
+
+! ---------------------- Esto solo sirve con emacs, pero bueh ----------------------
+!XTerm*backarrowKey: false
+!XTerm.ttyModes: erase ^?
+
+
+
+! ---------------------- Capacidad del scroll ----------------------
+XTerm*saveLines: 4096
+
+
+
+! ---------------------- Colores ----------------------
+! especial
+XTerm*foreground: rgb:dc/d9/c5
+XTerm*background: rgb:22/2e/35
+
+! negro
+XTerm*color0: rgb:32/37/3e
+XTerm*color8: rgb:46/4b/52
+
+! rojo
+XTerm*color1: rgb:a0/2a/32
+XTerm*color9: rgb:b4/3e/46
+
+! verde
+XTerm*color2: rgb:a0/9e/13
+XTerm*color10: rgb:b4/b2/27
+
+! amarillo
+XTerm*color3: rgb:df/9d/1f
+XTerm*color11: rgb:f3/b1/33
+
+! azul
+XTerm*color4: rgb:41/87/8a
+XTerm*color12: rgb:55/9b/9e
+
+! magenta
+XTerm*color5: rgb:90/2a/50
+XTerm*color13: rgb:a4/3e/64
+
+! cyan
+XTerm*color6: rgb:57/8b/76
+XTerm*color14: rgb:6b/9f/8a
+
+! blanco
+XTerm*color7: rgb:dc/d8/c0
+XTerm*color15: rgb:f0/ec/d4
+
+
+
+! ---------------------- Fuentes ---------------------
+XTerm*renderFont: true
+XTerm*faceName:cherry
+XTerm*faceSize: 10
+!XTerm*font: xft:cherry:pixelsize=13:antialias=true:hinting=true
+!XTerm*boldFont: xft:cherry:pixelsize=13:antialias=true:hinting=true
+!XTerm.scaleHeight: 1
+
+
+
+
+! ---------------------- Clipboard ---------------------
+XTerm*selectToClipboard: true
+XTerm*translations: #override \n\
+    Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+
+
+
+
+! ---------------------- Colorización ---------------------
+! Manpages
+XTerm*colorBDMode:     true
+XTerm*colorBD:         rgb:a0/2a/32
+XTerm*colorULMode:     true
+XTerm*colorUL:         rgb:57/8b/76
+XTerm*veryBoldColors: 6
