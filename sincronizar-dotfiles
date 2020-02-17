@@ -34,9 +34,10 @@ elif [ $dec -eq 2 ]
 		fi
 elif [ $dec -eq 3 ]
 	then
-		pwd ;
+		cp .Xresources ~/
+		cp .zshrc ~/
+		cp kitty.conf ~/.config/kitty/ #Comprobar si existe el directorio
+		cp .polybar ~/
 else 
 		echo "Aprende a escribir." ;
 fi
-
-#Hacer opciones: Sintronizar, colocar archivos en sus sitios (Para nuevas instalaciones), y subir a git automáticamente.
