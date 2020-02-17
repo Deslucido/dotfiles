@@ -20,8 +20,11 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # Alias
 alias árbol="tree -CA"
 alias actualizar="bash ~/.configpersonal/.pacmancito && sudo pacman -Syu"
+alias barra='f(){ killall -q polybar; polybar -c ~/.polybar/.statusbar "$@" & disown;  unset -f f; }; f'
+alias kbarra='killall -q polybar'
+
 
 #Otras cosillas
-kitty +kitten icat /home/deslucido/Desktop/spain.png
+kitty +kitten icat /home/deslucido/Desktop/jojohedoro.jpg
 
 

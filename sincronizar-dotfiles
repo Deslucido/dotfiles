@@ -1,0 +1,42 @@
+#!/bin/bash
+
+echo "+----------------------+
+|  1 · Sincronizar     |
+|  2 · Subir a GITHUB  |
+|  3 · Exportar al PC  |
++----------------------+"
+read -p "Escoge: " dec 
+
+cd $(dirname $(realpath $0))
+
+if [ $dec -eq 1 ]
+	then
+		sudo rsync -aAXv --delete ~/.Xresources . 
+		sudo rsync -aAXv --delete ~/.zshrc . 
+		sudo rsync -aAXv --delete ~/.config/kitty/kitty.conf . 
+		sudo rsync -aAXv --delete ~/.polybar . 
+elif [ $dec -eq 2 ]
+	then
+		git add .Xresources
+		git add .zshrc
+		git add kitty.conf
+		git add .polybar
+		git add sincronizar-dotfiles
+		read -p "Commit? [Y/N]: " a
+		if [[ $a =~ ^[Yy]$ ]]
+			then
+				git commit -m "Actualización automática"
+		fi
+		read -p "Push? [Y/N]: " b
+		if [[ $b =~ ^[Yy]$ ]]
+			then
+				git push origin master
+		fi
+elif [ $dec -eq 3 ]
+	then
+		pwd ;
+else 
+		echo "Aprende a escribir." ;
+fi
+
+#Hacer opciones: Sintronizar, colocar archivos en sus sitios (Para nuevas instalaciones), y subir a git automáticamente.

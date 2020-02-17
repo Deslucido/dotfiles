@@ -1,0 +1,246 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+
+
+
+
+
+
+
+
+
+
+;==========================================================
+;======================== BARRAS ==========================
+;==========================================================
+[bar/simple]
+monitor = ${env:MONITOR:HDMI-0}
+monitor-fallback = ${env:MONITOR:DVI-D-0}
+modules-right = volume date
+modules-left = workspaces
+modules-center = spotify
+padding = 2
+font-0 = "cherry:pixelsize=12;2"
+font-1 = "Siji:size=20;2"
+background = #202C33
+
+[bar/sensores]
+monitor = ${env:MONITOR:HDMI-0}
+monitor-fallback = ${env:MONITOR:DVI-D-0}
+modules-right = nvidia-smi-utilization nvidia-smi-temperature memory cpu temperature volume date
+modules-left = workspaces
+modules-center = spotify
+padding = 2
+font-0 = "cherry:pixelsize=12;2"
+font-1 = "Siji:size=20;2"
+background = #202C33
+
+
+
+;==========================================================
+;================= MÓDULOS COMUNES ========================
+;==========================================================
+
+[module/date]
+type = internal/date
+interval = 30
+label =  %time%
+time = %{F#fff}%H:%M
+time-alt = %{F#fff}%Y-%m-%d
+format-padding = 0
+
+;==========================================================
+
+[module/volume]
+type = internal/alsa
+format-volume = <ramp-volume><label-volume>
+label-volume = "%{F#fff}%percentage%%  "
+format-muted-prefix = "    %{F#fff}"
+label-muted = %{F#fff}MUTE
+format-padding = 2 ;Le tengo que poner 4 espacios al principio porque el módulo alsa no tiene padding
+ramp-volume-0 = "    %{F#fff}  "
+ramp-volume-1 = "    %{F#fff}"
+ramp-volume-2 = "    %{F#fff}"
+ramp-volume-3 = "    %{F#fff}"
+ramp-volume-4 = "    %{F#fff}"
+ramp-volume-5 = "    %{F#fff}"
+
+;==========================================================
+
+[module/workspaces]
+type = internal/xworkspaces
+pin-workspaces = true
+enable-click = true
+enable-scroll = true
+format-padding = 0
+
+icon-0 = I
+icon-1 = II
+icon-2 = III
+icon-3 = IV
+;icon-4 = V
+icon-default =  .X. 
+format = <label-state>
+
+label-active = %icon%  
+label-active-foreground = #ffffff
+label-active-background = #b43e46
+;label-active-underline = #ffffff
+
+label-occupied = %icon%  
+;label-occupied-underline = #555555
+
+label-urgent = %icon%  
+;label-urgent-foreground = #000000
+;label-urgent-background = #bd2c40
+;label-urgent-underline = #9b0a20
+
+label-empty = %icon%  
+;label-empty-foreground = #55
+
+;==========================================================
+
+[module/spotify]
+type = custom/script
+interval = 1
+exec = python ~/.polybar/polybar-spotify/spotify_status.py -f '{artist}: {song}' -t 42
+label = %{F#a43e64}%{F#fff}%output%
+
+
+
+
+
+
+
+
+
+
+
+
+
+;==========================================================
+;================= CPU GPU Y RAM ==========================
+;==========================================================
+
+[module/cpu]
+type = internal/cpu
+interval = 5
+format = <label>
+exec = sensors | grep Package | awk '{print substr($4, 2)}' | sed 's/[.].*//g'
+label = %{F#41978a}%{F#fff}%percentage%%
+
+
+[module/temperature]
+type = custom/script
+interval = 5
+exec = sensors | grep Package | awk '{print substr($4, 2)}' | sed 's/[.].*//g'
+label = %{F#41978a}%{F#fff}%output%°
+
+;==========================================================
+
+[module/memory]
+type = internal/memory
+interval = 5
+format = <label>
+label = %{F#f3b133}%{F#fff}%percentage_used%%
+format-padding = 2
+
+;==========================================================
+
+[module/nvidia-smi-temperature]
+type = custom/script
+exec = nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits | awk '{ print ""$1""}' | sed 's/ //g'
+label = %{F#a09e13}%{F#fff}%output%°
+interval = 5
+
+[module/nvidia-smi-utilization]
+type = custom/script
+exec = nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk '{ print ""$1""}' | sed 's/ //g'
+label = %{F#a09e13}%{F#fff}%output%%
+interval = 5
+
+
+
+
+
+;==========================================================
+;====================== PORTÁTIL ==========================
+;==========================================================
+
+[module/battery]
+type = internal/battery
+full-at = 99
+time-format = %H:%M
+battery = BAT1
+adapter = AC
+format-charging = <animation-charging> <label-charging>
+;label-charging = %percentage%% (%time%)
+label-charging = %percentage%%
+format-discharging = <ramp-capacity> <label-discharging>
+;label-discharging = %percentage%% (%time%)
+label-discharging = %percentage%%
+format-full = <label-full>
+format-padding = 2
+format-full-prefix = " "
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-0-foreground = ${color.red}
+ramp-capacity-foreground   = ${color.fg}
+bar-capacity-width = 10
+animation-charging-0 = ""
+animation-charging-1 = ""
+animation-charging-2 = ""
+animation-charging-3 = ""
+animation-charging-4 = ""
+animation-charging-framerate = 750
+
+;==========================================================
+
+[module/network]
+???
+
+
+
+
+
+
+
+
+
+
+
+;==========================================================
+;========================= EXTRA ==========================
+;==========================================================
+
+[module/i-use-arch]
+type = custom/text
+content = %{F#41878a}
+
+; %{F#a43e64}%{F#f3b133}%temperature-c%
+
+
+
+
+
+
+
