@@ -22,21 +22,18 @@ elif [ $dec -eq 2 ]
 		git add kitty.conf
 		git add .polybar
 		git add sincronizar-dotfiles
+		git add configurador_automático_arch.sh
 		read -p "Commit? [Y/N]: " a
-		if [[ $a =~ ^[Yy]$ ]]
-			then
-				git commit -m "Actualización automática"
-		fi
+		if [[ $a =~ ^[Yy]$ ]] ; then git commit -m "Actualización automática"; fi
 		read -p "Push? [Y/N]: " b
-		if [[ $b =~ ^[Yy]$ ]]
-			then
-				git push origin master
-		fi
+		if [[ $b =~ ^[Yy]$ ]] ; then git push origin master; fi
 elif [ $dec -eq 3 ]
 	then
 		cp .Xresources ~/
 		cp .zshrc ~/
-		cp kitty.conf ~/.config/kitty/ #Comprobar si existe el directorio
+		mkdir ~/.config
+		mkdir ~/.config/kitty
+		cp kitty.conf ~/.config/kitty
 		cp .polybar ~/
 else 
 		echo "Aprende a escribir." ;
