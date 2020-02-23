@@ -2,8 +2,9 @@
 
 #Sript personalizado para automatizar la configuración de Arch.
 
+
+if [ $(whoami) = "root" ]; then passwd; else echo "No estás logeado como root"; exit; fi
 echo "Contraseña de root"
-if [ ~ -eq "/root" ]; then passwd; else; echo "No estás logeado como root"; exit 1; fi
 echo acmpc > /etc/hostname
 useradd -m -G wheel alberto
 echo "Contraseña de usuario"
