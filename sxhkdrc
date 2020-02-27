@@ -1,0 +1,160 @@
+# +--------------------------------------------+
+# |   REINICIAR PROGRAMAS (SUPER + SHIFT + ?)  |
+# +--------------------------------------------+
+
+# Reiniciar SXHKD
+super + shift + e
+	pkill -USR1 -x sxhkd
+	
+# Reiniciar BSPWM
+super + shift + r
+	sh ~/.config/bspwm/bspwmrc
+
+
+
+
+
+
+
+
+# +------------------------------------+
+# |      BSPWM HOTKEYS (SUPER + ?)     |
+# +------------------------------------+
+
+# Cerrar ventana
+super + q
+	bspc node -c
+
+# Cambiar la posición de la ventana seleccionada por la de la ventana más grande en es escritorio
+super + g
+	bspc node -s biggest
+
+
+
+
+
+
+
+
+
+
+# +------------------------+
+# | VENTANAS Y ESCRITORIOS |
+# +------------------------+
+
+
+# Mover el focus entre ventanas
+super + {Left,Down,Up,Right}
+	bspc node -f {west,south,north,east}
+
+# Mover la ventana seleccionada
+super + shift {Left,Down,Up,Right}
+	bspc node -s {west,south,north,east}
+
+
+# Cambiar el escritorio
+ctrl + alt + {left,right}
+	bspc desktop -f {prev,next}.local
+
+
+# Enviar la ventana seleccionada al escritorio seleccionado
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} focused:'^{1-9,10}'
+
+
+# Expandir ventana
+super + alt + {Left,Down,Up,Right}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+
+# Contraer ventanaa
+super + alt + space + {Left,Down,Up,Right}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+#fullscreen
+super + f
+    bspc node -t ~fullscreen
+
+
+
+
+
+
+
+
+
+
+# +------------------------+
+# |     PRESELECCIONAR     |
+# +------------------------+
+
+# Preseleccionar la zona donde se quiere realizar la acción
+super + ctrl + {Left,Down,Up,Right}
+	bspc node -p {west,south,north,east}
+
+
+# Cancelar la preselección
+super + ctrl + space
+	bspc node -p cancel
+
+
+
+
+
+
+
+
+
+
+# +------------------------+
+# |      APLICACIONES      |
+# +------------------------+
+
+# Emulador de terminal
+super + Return
+	kitty
+
+# dmenu
+super + d
+	dmenu_run
+
+# ranger/nemo
+
+
+
+
+
+
+
+
+
+
+
+# +------------------------+
+# |     VOLUMEN Y MEDIA    |
+# +------------------------+
+
+# Media player controls
+XF86AudioPlay
+	playerctl play-pause
+	
+XF86AudioPause
+	playerctl play-pause
+	
+XF86AudioNext
+	playerctl next
+	
+XF86AudioPrev
+	playerctl previous
+
+#Volumen
+F86AudioMute 
+	amixer sset 'Master' toggle
+	
+XF86AudioLowerVolume
+	amixer sset 'Master' 5%-
+
+XF86AudioRaiseVolume
+	amixer sset 'Master' 5%+
+
+

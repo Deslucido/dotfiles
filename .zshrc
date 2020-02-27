@@ -25,6 +25,6 @@ alias kbarra='killall -q polybar'
 
 
 #Otras cosillas
-kitty +kitten icat /home/deslucido/Desktop/jojohedoro.jpg
+#kitty +kitten icat /home/deslucido/Desktop/jojohedoro.jpg
 
 

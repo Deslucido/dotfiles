@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# LISTA DE ARCHIVOS QUE SIGO
+# - Este (sincronizar-dotfiles)
+# - configurador_automático_arch
+# - Xresources
+# - zshrc
+# - kitty.conf
+# - polybar
+
 echo "+----------------------+
 |  1 · Sincronizar     |
 |  2 · Subir a GITHUB  |
@@ -9,32 +17,21 @@ read -p "Escoge: " dec
 
 cd $(dirname $(realpath $0))
 
-if [ $dec -eq 1 ]
-	then
-		sudo rsync -aAXv --delete ~/.Xresources . 
-		sudo rsync -aAXv --delete ~/.zshrc . 
-		sudo rsync -aAXv --delete ~/.config/kitty/kitty.conf . 
-		sudo rsync -aAXv --delete ~/.polybar . 
-elif [ $dec -eq 2 ]
-	then
-		git add .Xresources
-		git add .zshrc
-		git add kitty.conf
-		git add .polybar
-		git add sincronizar-dotfiles
-		git add configurador_automático_arch.sh
-		read -p "Commit? [Y/N]: " a
-		if [[ $a =~ ^[Yy]$ ]] ; then git commit -m "Actualización automática"; fi
-		read -p "Push? [Y/N]: " b
-		if [[ $b =~ ^[Yy]$ ]] ; then git push origin master; fi
-elif [ $dec -eq 3 ]
-	then
+if [ $dec -eq 1 ]; then
+		sudo rsync -aAXv --delete ~/.Xresources ~/.zshrc ~/.config/kitty/kitty.conf ~/.polybar ~/.config/bspwm/bspwmrc ~/.config/sxhkd/sxhkdrc . 
+elif [ $dec -eq 2 ]; then
+		git add $(realpath $0) configurador_automático_arch.sh .Xresources .zshrc kitty.conf .polybar bspwmrc sxhkdrc
+		read -p "Commit? [Y/N]: " a; if [[ $a =~ ^[Yy]$ ]]; then git commit -m "Actualización automática"; fi
+		read -p "Push? [Y/N]: " b; if [[ $b =~ ^[Yy]$ ]]; then git push origin master; fi
+elif [ $dec -eq 3 ]; then
 		cp .Xresources ~/
 		cp .zshrc ~/
 		mkdir ~/.config
 		mkdir ~/.config/kitty
 		cp kitty.conf ~/.config/kitty
 		cp .polybar ~/
-else 
-		echo "Aprende a escribir." ;
-fi
+		mkdir ~/.config/bspwm
+		cp bspwmrc ~/.config/bspwm
+		mkdir ~/.config/sxhkd
+		cp sxhkdrc ~/.config/sxhkd
+else echo "You had one job." ; fi
