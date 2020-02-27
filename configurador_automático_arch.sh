@@ -26,8 +26,8 @@ read -p "Escribe el dispositivo de red que quieras usar: " dis; dis=$dis".servic
 systemctl enable dhcpcd@$dis; systemctl start dhcpcd@$dis
 ping -c 3 archlinux.org; read -p "Problemas de conexión? [Y/N]: " a
 if [[ $a =~ ^[Yy]$ ]]; then echo "Revisa que todo esté bien y posiblemente tengas que rehacer la instalación"; exit 1; fi
-sed ':a;N;$!ba;s/# Misc options\n#UseSyslog\n#Color/# Misc options\n#UseSyslog\nColor/g' /etc/pacman.conf #No va :c
-sed ':a;N;$!ba;s/#\[multilib\]\n#Include = \/etc\/pacman.d\/mirrorlist/[multilib]\nInclude = \/etc\/pacman.d\/mirrorlist/g' /etc/pacman.conf #No va :c
+sed -i ':a;N;$!ba;s/# Misc options\n#UseSyslog\n#Color/# Misc options\n#UseSyslog\nColor/g' /etc/pacman.conf #No va :c
+sed -i ':a;N;$!ba;s/#\[multilib\]\n#Include = \/etc\/pacman.d\/mirrorlist/[multilib]\nInclude = \/etc\/pacman.d\/mirrorlist/g' /etc/pacman.conf #No va :c
 pacman -Syy
 
 echo "configuración completa"
