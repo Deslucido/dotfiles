@@ -10,7 +10,7 @@ echo "Contraseña de root"; passwd
 echo acmpc > /etc/hostname
 useradd -m -G wheel alberto
 echo "Contraseña de usuario"; passwd alberto
-sed -i ':a;N;$!ba;s/## Uncomment to allow members of group wheel to execute any command\n# %wheel ALL=(ALL) ALL/## Uncomment to allow members of group wheel to execute any command\n%wheel ALL=(ALL) ALL(ALL) ALL/g' /etc/sudoers #Se puede simplifocar poniendo simplemente la línea donde quiero la sustitución / también ha fallado
+EDITOR=nano visudo
 
 # Hora e idioma
 ln -sf /usr/share/zoneinfo/Madrid/Europe /etc/localtime
@@ -34,8 +34,8 @@ pacman -Syy
 
 # Instalar YAY
 clear; echo "Instalando yay"
-cd /home/alberto; git clone https://aur.archlinux.org/yay.git
-cd yay; sudo -u alberto makepkg -sirc
+git clone https://aur.archlinux.org/yay.git
+cd yay; sudo -u nobody makepkg -sirc
 cd ..; rm -dr yay
 
 # Instalar herramientas para la línea de comandos
