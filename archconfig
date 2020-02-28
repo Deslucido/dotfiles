@@ -10,7 +10,7 @@ echo "Contraseña de root"; passwd
 echo acmpc > /etc/hostname
 useradd -m -G wheel alberto
 echo "Contraseña de usuario"; passwd alberto
-EDITOR=nano visudo
+EDITOR="nano +82" visudo
 
 # Hora e idioma
 ln -sf /usr/share/zoneinfo/Madrid/Europe /etc/localtime
@@ -25,7 +25,7 @@ clear; ip link; echo "\n"
 
 read -p "Escribe el número del dispositivo que quieras usar (EJ: 1, 2, 4...): " dis
 systemctl enable dhcpcd@$(ip link | grep $dis: | awk '{print $2}' | sed 's/://g'); systemctl start dhcpcd@$(ip link | grep $dis: | awk '{print $2}' | sed 's/://g')
-
+echo "\n"
 ping -c 3 archlinux.org; read -p "¿Problemas de conexión? [Y/N]: " b
 if [[ $b =~ ^[Yy]$ ]]; then echo "Revisa que todo esté bien y posiblemente tengas que rehacer la instalación"; exit 1; fi
 sed -i ':a;N;$!ba;s/# Misc options\n#UseSyslog\n#Color/# Misc options\n#UseSyslog\nColor/g' /etc/pacman.conf 
@@ -34,9 +34,15 @@ pacman -Syy
 
 # Instalar YAY
 clear; echo "Instalando yay"
+mkdir /home/build
+chgrp nobody /home/build
+chmod g+ws /home/build
+setfacl -m u::rwx,g::rwx /home/build
+setfacl -d --set u::rwx,g::rwx,o::- /home/build
+cd /home/build
 git clone https://aur.archlinux.org/yay.git
 cd yay; sudo -u nobody makepkg -sirc
-cd ..; rm -dr yay
+cd /; rm -dr /home/build
 
 # Instalar herramientas para la línea de comandos
 read -p "¿Intalar herramientas para la línea de comandos? [Y/N]: " c
