@@ -3,7 +3,7 @@
 # --- Sript personalizado para automatizar la configuración de Arch. ---
 
 # Comprobar si estás logeado como root
-if [ $(whoami) != "root" ]; then echo "No estás logeado como root"; exit; fi 
+if [ $(whoami) != "root" ]; then echo "No estás logeado como root"; exit; fi; clear
 
 # Usuarios y contraseñas
 echo "Contraseña de root"; passwd
@@ -21,7 +21,7 @@ sed -i 's/#es_ES[.]UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g' /etc/locale.gen
 locale-gen
 
 # Conexión
-ip link
+clear; ip link; echo "\n"
 
 read -p "Escribe el número del dispositivo que quieras usar (EJ: 1, 2, 4...): " dis
 systemctl enable dhcpcd@$(ip link | grep $dis: | awk '{print $2}' | sed 's/://g'); systemctl start dhcpcd@$(ip link | grep $dis: | awk '{print $2}' | sed 's/://g')
@@ -33,9 +33,9 @@ sed -i ':a;N;$!ba;s/#\[multilib\]\n#Include = \/etc\/pacman.d\/mirrorlist/[multi
 pacman -Syy
 
 # Instalar YAY
-echo "Instalando yay"
-git clone https://aur.archlinux.org/yay.git
-cd yay; sudo -u nobody makepkg -sirc
+clear; echo "Instalando yay"
+cd /home/alberto; git clone https://aur.archlinux.org/yay.git
+cd yay; sudo -u alberto makepkg -sirc
 cd ..; rm -dr yay
 
 # Instalar herramientas para la línea de comandos
