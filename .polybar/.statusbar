@@ -119,7 +119,7 @@ label-empty = %icon%
 [module/spotify]
 type = custom/script
 interval = 1
-exec = python ~/.polybar/polybar-spotify/spotify_status.py -f '{artist}: {song}' -t 42
+exec = python /usr/share/polybar/scripts/spotify_status.py -f '{artist}: {song}' -t 42
 label = %{F#a43e64}%{F#fff}%output%
 
 
