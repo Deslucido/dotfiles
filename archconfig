@@ -35,8 +35,8 @@ pacman -Syy
 # Instalar YAY
 clear; echo "Instalando yay"
 mkdir /home/build
-chgrp nobody /home/build
-chmod g+ws /home/build
+chgrp alberto /home/build
+chmod -R g+ws /home/build
 setfacl -m u::rwx,g::rwx /home/build
 setfacl -d --set u::rwx,g::rwx,o::- /home/build
 cd /home/build
