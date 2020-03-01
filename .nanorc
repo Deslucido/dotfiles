@@ -1,0 +1,25 @@
+# set element fgcolor,bgcolor
+
+set titlecolor brightwhite,blue
+
+set statuscolor brightwhite,blue
+
+set errorcolor brightwhite,red
+
+#set selectedcolor brightwhite,blue
+
+#set stripecolor ,red
+
+set numbercolor magenta
+
+set keycolor red
+
+set functioncolor green
+
+#include "/usr/share/nano/sh.nanorc"
+
+set linenumbers
+
+set mouse
+
+set smooth

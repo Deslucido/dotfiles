@@ -22,6 +22,8 @@ alias árbol="tree -CA"
 alias actualizar="bash ~/.configpersonal/.pacmancito && sudo pacman -Syu"
 alias barra='f(){ killall -q polybar; polybar -c ~/.polybar/.statusbar "$@" & disown;  unset -f f; }; f'
 alias kbarra='killall -q polybar'
+alias nota='f(){ nano ~/Documents/Notas\ desorganizadas/\[NOTA\]\ "$@";  unset -f f; }; f'
+alias porfa='sudo'
 
 
 #Otras cosillas

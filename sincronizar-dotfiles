@@ -7,6 +7,10 @@
 # - zshrc
 # - kitty.conf
 # - polybar
+# - bspwm
+# - sxhkd
+# - nano
+# - micro
 
 echo "+----------------------+
 |  1 · Sincronizar     |
@@ -18,9 +22,9 @@ read -p "Escoge: " dec
 cd $(dirname $(realpath $0))
 
 if [ $dec -eq 1 ]; then
-		sudo rsync -aAXv --delete ~/.Xresources ~/.zshrc ~/.config/kitty/kitty.conf ~/.polybar ~/.config/bspwm/bspwmrc ~/.config/sxhkd/sxhkdrc . 
+		sudo rsync -aAXv --delete ~/.Xresources ~/.zshrc ~/.config/kitty/kitty.conf ~/.polybar ~/.config/bspwm/bspwmrc ~/.config/sxhkd/sxhkdrc ~/.nanorc ~/.config/micro . 
 elif [ $dec -eq 2 ]; then
-		git add $(realpath $0) archconfig .Xresources .zshrc kitty.conf .polybar bspwmrc sxhkdrc
+		git add $(realpath $0) archinstalar archconfig archpaquetes .Xresources .zshrc kitty.conf .polybar bspwmrc sxhkdrc .nanorc micro
 		read -p "Commit? [Y/N]: " a; if [[ $a =~ ^[Yy]$ ]]; then git commit -m "Actualización automática"; fi
 		read -p "Push? [Y/N]: " b; if [[ $b =~ ^[Yy]$ ]]; then git push origin master; fi
 elif [ $dec -eq 3 ]; then
@@ -34,4 +38,6 @@ elif [ $dec -eq 3 ]; then
 		sudo rsync -aAXv --delete bspwmrc ~/.config/bspwm
 		[ ! -d "~/.config/sxhkd" ] && mkdir ~/.config/sxhkd
 		sudo rsync -aAXv --delete sxhkdrc ~/.config/sxhkd
+		sudo rsync -aAXv --delete .nanorc ~/
+		sudo rsync -aAXv --delete micro ~/.config
 else echo "You had one job." ; fi

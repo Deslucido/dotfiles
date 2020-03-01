@@ -1,0 +1,22 @@
+color-link comment "bold grey"
+color-link line-number "grey"
+color-link current-line-number "bold blue"
+color-link statuslin "blue"
+color-link tabbar "blue"
+
+
+
+color-link ignore "default"
+color-link error ",brightred"
+color-link todo ",brightyellow"
+color-link indent-char "black"
+
+color-link diff-added "green"
+color-link diff-modified "yellow"
+color-link diff-deleted "red"
+
+color-link gutter-error ",red"
+color-link gutter-warning "red"
+
+color-link divider "red"
+
