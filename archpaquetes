@@ -5,6 +5,7 @@
 read -p "¿Ordenar mirrors? [Y/N]: " mir
 if [[ $mir =~ ^[Yy]$ ]]; then 
 	sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+	sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 	awk '/^## Spain$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/mirrorlist.backup | sed 's/^#Server/Server/' | rankmirrors -n 6 - | sudo tee /etc/pacman.d/mirrorlist
 	fi
 
