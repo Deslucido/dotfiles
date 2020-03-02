@@ -32,18 +32,5 @@ sed -i ':a;N;$!ba;s/# Misc options\n#UseSyslog\n#Color/# Misc options\n#UseSyslo
 sed -i ':a;N;$!ba;s/#\[multilib\]\n#Include = \/etc\/pacman.d\/mirrorlist/[multilib]\nInclude = \/etc\/pacman.d\/mirrorlist/g' /etc/pacman.conf
 pacman -Syy
 
-# Instalar YAY
-clear; echo "Instalando yay"
-mkdir /home/build
-chgrp alberto /home/build
-chmod -R g+ws /home/build
-setfacl -m u::rwx,g::rwx /home/build
-setfacl -d --set u::rwx,g::rwx,o::- /home/build
-cd /home/build
-git clone https://aur.archlinux.org/yay.git
-cd yay; sudo -u alberto makepkg -sirc
-cd /; rm -dr /home/build
-
 echo "configuración completa"
-sl
 
