@@ -24,7 +24,7 @@ cd $(dirname $(realpath $0))
 if [ $dec -eq 1 ]; then
 		sudo rsync -aAXv --delete ~/.Xresources ~/.zshrc ~/.config/kitty/kitty.conf ~/.polybar ~/.config/bspwm/bspwmrc ~/.config/sxhkd/sxhkdrc ~/.nanorc ~/.config/micro . 
 elif [ $dec -eq 2 ]; then
-		git add $(realpath $0) archinstalar archconfig archpaquetes .Xresources .zshrc kitty.conf .polybar bspwmrc sxhkdrc .nanorc micro
+		git add $(realpath $0) archconfig archpaquetes .Xresources .zshrc kitty.conf .polybar bspwmrc sxhkdrc .nanorc micro
 		read -p "Commit? [Y/N]: " a; if [[ $a =~ ^[Yy]$ ]]; then git commit -m "Actualización automática"; fi
 		read -p "Push? [Y/N]: " b; if [[ $b =~ ^[Yy]$ ]]; then git push origin master; fi
 elif [ $dec -eq 3 ]; then
