@@ -40,5 +40,5 @@ if [[ $e =~ ^[Yy]$ ]]; then yay -S vlc mumble gedit notepadqq nemo spotify firef
 # Acciones extra
 #activar firewall
 cp /etc/X11/xinit/xinitrc ~/.xinitrc
-
+chsh -s /bin/zsh
 sl

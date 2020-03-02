@@ -1,5 +1,5 @@
 color-link comment "bold grey"
-color-link line-number "grey"
+color-link line-number "blue"
 color-link current-line-number "bold blue"
 color-link statuslin "blue"
 color-link tabbar "blue"
