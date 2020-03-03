@@ -20,7 +20,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # Alias
 alias árbol="tree -CA"
 alias actualizar="bash ~/.configpersonal/.pacmancito && sudo pacman -Syu"
-alias barra='f(){ killall -q polybar; polybar -c ~/.polybar/.statusbar "$@" & disown;  unset -f f; }; f'
+alias barra='f(){ killall -q polybar; polybar -c ~/.config/polybar/config/.statusbar "$@" & disown;  unset -f f; }; f'
 alias kbarra='killall -q polybar'
 alias sincronizar='sh ~/Documents/Git/dotfiles/sincronizar-dotfiles'
 

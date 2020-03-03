@@ -90,11 +90,6 @@ enable-click = true
 enable-scroll = true
 format-padding = 0
 
-icon-0 = I
-icon-1 = II
-icon-2 = III
-icon-3 = IV
-;icon-4 = V
 icon-default =  .X. 
 format = <label-state>
 
@@ -142,7 +137,6 @@ label = %{F#a43e64}%{F#fff}%output%
 type = internal/cpu
 interval = 5
 format = <label>
-exec = sensors | grep Package | awk '{print substr($4, 2)}' | sed 's/[.].*//g'
 label = %{F#41978a}%{F#fff}%percentage%%
 
 
@@ -150,7 +144,7 @@ label = %{F#41978a}%{F#fff}%percentage%%
 type = custom/script
 interval = 5
 exec = sensors | grep Package | awk '{print substr($4, 2)}' | sed 's/[.].*//g'
-label = %{F#41978a}%{F#fff}%output%°
+dlabel = %{F#41978a}%{F#fff}%output%°
 
 ;==========================================================
 
@@ -184,34 +178,7 @@ interval = 5
 ;==========================================================
 
 [module/battery]
-type = internal/battery
-full-at = 99
-time-format = %H:%M
-battery = BAT1
-adapter = AC
-format-charging = <animation-charging> <label-charging>
-;label-charging = %percentage%% (%time%)
-label-charging = %percentage%%
-format-discharging = <ramp-capacity> <label-discharging>
-;label-discharging = %percentage%% (%time%)
-label-discharging = %percentage%%
-format-full = <label-full>
-format-padding = 2
-format-full-prefix = " "
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-4 = 
-ramp-capacity-0-foreground = ${color.red}
-ramp-capacity-foreground   = ${color.fg}
-bar-capacity-width = 10
-animation-charging-0 = ""
-animation-charging-1 = ""
-animation-charging-2 = ""
-animation-charging-3 = ""
-animation-charging-4 = ""
-animation-charging-framerate = 750
+???
 
 ;==========================================================
 
