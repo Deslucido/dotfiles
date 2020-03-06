@@ -1,35 +1,17 @@
 # +--------------------------------------------+
-# |   REINICIAR PROGRAMAS (SUPER + SHIFT + ?)  |
+# |                  GENERALES                 |
 # +--------------------------------------------+
 
-# Reiniciar SXHKD
-super + shift + e
-	pkill -USR1 -x sxhkd
-	
+
 # Reiniciar BSPWM
 super + shift + r
-	sh ~/.config/bspwm/bspwmrc
+	bspc wm -r
 
 
-
-
-
-
-
-
-# +------------------------------------+
-# |      BSPWM HOTKEYS (SUPER + ?)     |
-# +------------------------------------+
 
 # Cerrar ventana
 super + q
 	bspc node -c
-
-# Cambiar la posición de la ventana seleccionada por la de la ventana más grande en es escritorio
-super + g
-	bspc node -s biggest
-
-
 
 
 
@@ -53,8 +35,8 @@ super + shift {Left,Down,Up,Right}
 
 
 # Cambiar el escritorio
-ctrl + alt + {left,right}
-	bspc desktop -f {prev,next}.local
+ctrl + alt + {Left,Right}
+	bspc desktop {prev,next}.local -f; bspc desktop next:focused#"$(bspc query -D -d --names).local" -a
 
 
 # Enviar la ventana seleccionada al escritorio seleccionado
@@ -62,18 +44,21 @@ super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} focused:'^{1-9,10}'
 
 
+#fullscreen
+super + f
+    bspc node -t \~fullscreen
+
+
+
+
 # Expandir ventana
 super + alt + {Left,Down,Up,Right}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 
-# Contraer ventanaa
+# Contraer ventana
 super + alt + space + {Left,Down,Up,Right}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
-
-#fullscreen
-super + f
-    bspc node -t ~fullscreen
 
 
 
@@ -116,9 +101,9 @@ super + Return
 
 # dmenu
 super + d
-	dmenu_run
+	j4-dmenu-desktop
 
-# ranger/nemo
+# Administrador de tareas
 
 
 
@@ -134,18 +119,18 @@ super + d
 # |     VOLUMEN Y MEDIA    |
 # +------------------------+
 
-# Media player controls
+# Media player controles
 XF86AudioPlay
-	playerctl play-pause
-	
-XF86AudioPause
-	playerctl play-pause
-	
-XF86AudioNext
-	playerctl next
-	
+	dbus-send --type=method_call --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+
+XF86AudioStop
+	dbus-send --type=method_call --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+
 XF86AudioPrev
-	playerctl previous
+	dbus-send --type=method_call --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+
+XF86AudioNext
+	dbus-send --type=method_call --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 
 #Volumen
 F86AudioMute 

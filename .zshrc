@@ -1,7 +1,7 @@
 # Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+HISTFILE=~/.cache/.histfile
+HISTSIZE=8000
+SAVEHIST=8000
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
@@ -16,13 +16,24 @@ compinit
 
 # Syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 
 # Alias
 alias árbol="tree -CA"
-alias actualizar="bash ~/.configpersonal/.pacmancito && sudo pacman -Syu"
+alias p="sudo pacman"
+alias act="bash ~/.configpersonal/.pacmancito && sudo pacman -Syu"
 alias barra='f(){ killall -q polybar; polybar -c ~/.config/polybar/config/.statusbar "$@" & disown;  unset -f f; }; f'
 alias kbarra='killall -q polybar'
 alias sincronizar='sh ~/Documents/Git/dotfiles/sincronizar-dotfiles'
+
+alias ls="ls -hN --color=auto --group-directories-first"
+alias grep="grep --color=auto"
+alias diff='diff --color=auto'
+
+alias porfi="sudo"
+alias starwars="telnet towel.blinkenlights.nl"
+
 
 
 #Otras cosillas

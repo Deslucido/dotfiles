@@ -30,8 +30,6 @@
 ;======================== BARRAS ==========================
 ;==========================================================
 [bar/simple]
-monitor = ${env:MONITOR:HDMI-0}
-monitor-fallback = ${env:MONITOR:DVI-D-0}
 modules-right = volume date
 modules-left = workspaces
 modules-center = spotify
@@ -41,8 +39,8 @@ font-1 = "Siji:size=20;2"
 background = #202C33
 
 [bar/sensores]
-monitor = ${env:MONITOR:HDMI-0}
-monitor-fallback = ${env:MONITOR:DVI-D-0}
+monitor = ${env:MONITOR:DVI-D-0}
+monitor-fallback = ${env:MONITOR:HDMI-0}
 modules-right = nvidia-smi-utilization nvidia-smi-temperature memory cpu temperature volume date
 modules-left = workspaces
 modules-center = spotify
@@ -93,12 +91,12 @@ format-padding = 0
 icon-default =  .X. 
 format = <label-state>
 
-label-active = %icon%  
+label-active = " %name% "  
 label-active-foreground = #ffffff
 label-active-background = #b43e46
 ;label-active-underline = #ffffff
 
-label-occupied = %icon%  
+label-occupied = " %name% " 
 ;label-occupied-underline = #555555
 
 label-urgent = %icon%  
@@ -106,7 +104,7 @@ label-urgent = %icon%
 ;label-urgent-background = #bd2c40
 ;label-urgent-underline = #9b0a20
 
-label-empty = %icon%  
+label-empty = " %name% "
 ;label-empty-foreground = #55
 
 ;==========================================================

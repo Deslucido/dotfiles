@@ -23,7 +23,7 @@ cd $(dirname $(realpath $0))
 
 if [ $dec -eq 1 ]; then
 		sudo rsync -aAXv --delete ~/.Xresources ~/.zshrc ~/.config/kitty ~/.config/polybar ~/.config/bspwm ~/.config/sxhkd ~/.nanorc ~/.config/micro .
-		ls -a
+		ls -hNa --color=auto --group-directories-first
 		
 elif [ $dec -eq 2 ]; then
 		git add --all ; git status; echo ""
