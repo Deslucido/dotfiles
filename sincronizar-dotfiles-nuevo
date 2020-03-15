@@ -34,7 +34,7 @@ if [ $dec -eq 1 ]; then
 		
 elif [ $dec -eq 2 ]; then
 		git add --all ; git status; echo " "
-		read -p "Commit? [Y/N]: " a; if [[ $a =~ ^[Yy]$ ]]; then git commit -m $date; fi
+		read -p "Commit? [Y/N]: " a; if [[ $a =~ ^[Yy]$ ]]; then git commit -m "`date`"; fi
 		read -p "Push? [Y/N]: " b; if [[ $b =~ ^[Yy]$ ]]; then git push origin master; fi
 
 elif [ $dec -eq 3 ]; then
