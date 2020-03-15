@@ -29,7 +29,7 @@ read -p "Escoge: " dec
 cd $(dirname $(realpath $0))
 
 if [ $dec -eq 1 ]; then
-		sudo rsync -aAXv ${DOTFILES[@]} . #Esto no funciona, no reconoce los directorios dentro de un array
+		sudo rsync -aAXv --delete ${DOTFILES[@]} .
 		ls -hNa --color=auto --group-directories-first
 		
 elif [ $dec -eq 2 ]; then
@@ -40,7 +40,7 @@ elif [ $dec -eq 2 ]; then
 elif [ $dec -eq 3 ]; then
 		[ -d "~/.config" ] && mkdir ~/.config
 		for i in ${DOTFILES[@]}; do
-		echo $i #Script real -> sudo rsync -aAXv --delete pene ~/          Hay que usar grep para determinar cóm se llama el archivo en git y dónde colocarlo
+		sudo rsync -aAXv --delete $(basename $i) $(dirname $i)
 		done
 else echo "You had one job." ; fi
 
