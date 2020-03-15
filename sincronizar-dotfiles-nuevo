@@ -30,7 +30,7 @@ cd $(dirname $(realpath $0))
 
 if [ $dec -eq 1 ]; then
 		sudo rsync -aAXv --delete ${DOTFILES[@]} .
-		ls -hNa --color=auto --group-directories-first
+		echo " "; ls -hNa --color=auto --group-directories-first; echo " "; git status; echo " "
 		
 elif [ $dec -eq 2 ]; then
 		git add --all ; git status; echo " "
