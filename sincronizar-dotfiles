@@ -26,7 +26,7 @@ if [ $dec -eq 1 ]; then
 		ls -hNa --color=auto --group-directories-first
 		
 elif [ $dec -eq 2 ]; then
-		git add --all ; git status; echo ""
+		git add --all ; git status; echo " "
 		read -p "Commit? [Y/N]: " a; if [[ $a =~ ^[Yy]$ ]]; then git commit -m "Actualización automática"; fi
 		read -p "Push? [Y/N]: " b; if [[ $b =~ ^[Yy]$ ]]; then git push origin master; fi
 

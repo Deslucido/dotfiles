@@ -1,2 +1,2 @@
 # dotfiles
-Configuration files from my Linux setups.
+Configuration files and scripts from my Linux setups.
