@@ -25,8 +25,8 @@ if [ $dec -eq 1 ]; then
 		
 elif [ $dec -eq 2 ]; then
 		git add --all ; git status; echo " "
-		read -p "Commit? [Y/N]: " a; if [[ $a =~ ^[Yy]$ ]]; then git commit -m "`date`"; fi
-		read -p "Push? [Y/N]: " b; if [[ $b =~ ^[Yy]$ ]]; then git push origin master; fi
+		read -p "Commit? [Y/N]: " a; [[ $a =~ ^[Yy]$ ]] && git commit -m "`date`"
+		read -p "Push? [Y/N]: " b; [[ $b =~ ^[Yy]$ ]] && git push origin master
 
 elif [ $dec -eq 3 ]; then
 		[ -d "~/.config" ] && mkdir ~/.config
