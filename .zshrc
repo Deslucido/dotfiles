@@ -20,19 +20,27 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 
 # Alias
-alias árbol="tree -CA"
 alias p="sudo pacman"
 alias act="bash ~/.configpersonal/.pacmancito && sudo pacman -Syu"
 alias barra='f(){ killall -q polybar; polybar -c ~/.config/polybar/config/.statusbar "$@" & disown;  unset -f f; }; f'
 alias kbarra='killall -q polybar'
 alias sincronizar='sh ~/Documents/Git/dotfiles/sincronizar-dotfiles'
 
+alias árbol="tree -CA"
 alias ls="ls -hN --color=auto --group-directories-first"
 alias grep="grep --color=auto"
 alias diff='diff --color=auto'
 
-alias porfi="sudo"
-alias starwars="telnet towel.blinkenlights.nl"
+
+xr="$HOME/.Xresources"
+zsh="$HOME/.zshrc"
+kit="$HOME/.config/kitty/kitty.conf"
+poly="$HOME/.config/polybar/config/.statusbar"
+bsp="$HOME/.config/bspwm/bspwmrc"
+sx="$HOME/.config/sxhkd/sxhkdrc"
+na="$HOME/.nanorc"
+mi="$HOME/.config/micro/settings.json"
+
 
 
 
