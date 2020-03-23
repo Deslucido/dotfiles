@@ -6,37 +6,50 @@
 
 #Las rutas a los dotfiles han de especificarse en el array DOTFILES
 declare -a DOTFILES=("$HOME/.Xresources" "$HOME/.zshrc" "$HOME/.config/kitty" "$HOME/.config/polybar" "$HOME/.config/bspwm" "$HOME/.config/sxhkd" "$HOME/.nanorc" "$HOME/.config/micro")
-
-echo "\
-+--------------------------------+
-|       1 · Sincronizar          |
-|       2 · Subir a GITHUB       |
-|       3 · Exportar al PC       |
-|                                |
-|  Cualquier otra tecla · Salir  |
-+--------------------------------+"
-read -p "Escoge: " dec 
+#--------------------------------------------------------------------------------------------
 
 cd $(dirname $(realpath $0))
+dec=$@
 
-if [ $dec -eq 1 ]; then
-		sudo rsync -aAXv --delete ${DOTFILES[@]} .
-		echo " "; ls -hNa --color=auto --group-directories-first; echo " "; git status; echo " "
-		
-elif [ $dec -eq 2 ]; then
-		git add --all ; git status; echo " "
-		read -p "Commit? [Y/N]: " a; [[ $a =~ ^[Yy]$ ]] && git commit -m "`date`"
-		read -p "Push? [Y/N]: " b; [[ $b =~ ^[Yy]$ ]] && git push origin master
 
-elif [ $dec -eq 3 ]; then
-		[ -d "~/.config" ] && mkdir ~/.config
-		for i in ${DOTFILES[@]}; do
+
+if [ -z "$dec" ]; then
+	echo "\
+	+--------------------------------+
+	|       S · Sincronizar          |
+	|       G · Subir a GITHUB       |
+	|       E · Exportar al PC       |
+	|                                |
+	|  Cualquier otra tecla · Salir  |
+	+--------------------------------+"
+	read -p "Escoge: " dec
+	dec=$(echo -$dec)
+fi
+
+case $dec in
+-s|-S)
+	sudo rsync -aAXv --delete ${DOTFILES[@]} .
+	echo " "; ls -hNa --color=auto --group-directories-first; echo " "; git status; echo " "
+	;;
+-g|-G)
+	git add --all ; git status; echo " "
+	read -p "Commit? [Y/N]: " a; [[ $a =~ ^[Yy]$ ]] && git commit -m "`date`"
+	read -p "Push? [Y/N]: " b; [[ $b =~ ^[Yy]$ ]] && git push origin master
+		;;
+-e|-E)
+	[ -d "~/.config" ] && mkdir ~/.config
+	for i in ${DOTFILES[@]}; do
 		sudo rsync -aAXv --delete $(basename $i) $(dirname $i)
-		done
-else echo "You had one job." ; fi
-
-
-
+	done
+	;;
+*)
+	echo "Argumentos:
+	-s · Sincronizar
+	-g · Subir a GITHUB
+	-e · Exportar al PC"
+	;;
+esac
 
 #Hacer que reconozca atributos?
 #Y hacer un modo menú para el seños xarly
+# Si el usuario usa un atributo $dec lo registra como variable. Y al principio del script comprueba si dec tiene un valor para ver si tiene que displayear el menú para elegir una opción
