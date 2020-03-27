@@ -8,9 +8,10 @@
 declare -a DOTFILES=("$HOME/.Xresources" "$HOME/.zshrc" "$HOME/.config/kitty" "$HOME/.config/polybar" "$HOME/.config/bspwm" "$HOME/.config/sxhkd" "$HOME/.nanorc" "$HOME/.config/micro")
 #--------------------------------------------------------------------------------------------
 
+
+
 cd $(dirname $(realpath $0))
 dec=$@
-
 
 
 if [ -z "$dec" ]; then
@@ -29,7 +30,7 @@ fi
 case $dec in
 -s|-S)
 	sudo rsync -aAXv --delete ${DOTFILES[@]} .
-	echo " "; ls -hNa --color=auto --group-directories-first; echo " "; git status; echo " "
+	echo " "; ls -hNA --color=auto --group-directories-first; echo " "; git status; echo " "
 	;;
 -g|-G)
 	git add --all ; git status; echo " "
@@ -43,13 +44,9 @@ case $dec in
 	done
 	;;
 *)
-	echo "Argumentos:
+	echo "	Argumentos:
 	-s · Sincronizar
 	-g · Subir a GITHUB
 	-e · Exportar al PC"
 	;;
 esac
-
-#Hacer que reconozca atributos?
-#Y hacer un modo menú para el seños xarly
-# Si el usuario usa un atributo $dec lo registra como variable. Y al principio del script comprueba si dec tiene un valor para ver si tiene que displayear el menú para elegir una opción
