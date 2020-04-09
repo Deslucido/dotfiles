@@ -27,7 +27,7 @@ read -p "Escribe el número del dispositivo que quieras usar (EJ: 1, 2, 4...): "
 systemctl enable dhcpcd@$(ip link | grep $dis: | awk '{print $2}' | sed 's/://g'); systemctl start dhcpcd@$(ip link | grep $dis: | awk '{print $2}' | sed 's/://g')
 
 ping -c 3 archlinux.org; echo " "; read -p "¿Problemas de conexión? [Y/N]: " b
-if [[ $b =~ ^[Yy]$ ]]; then echo "Revisa que todo esté bien y posiblemente tengas que rehacer la instalación"; exit 1; fi
+[[ $b =~ ^[Yy]$ ]] && then echo "Revisa que todo esté bien y posiblemente tengas que rehacer la instalación"; exit 1; fi
 sed -i ':a;N;$!ba;s/# Misc options\n#UseSyslog\n#Color/# Misc options\n#UseSyslog\nColor/g' /etc/pacman.conf 
 sed -i ':a;N;$!ba;s/#\[multilib\]\n#Include = \/etc\/pacman.d\/mirrorlist/[multilib]\nInclude = \/etc\/pacman.d\/mirrorlist/g' /etc/pacman.conf
 pacman -Syy
