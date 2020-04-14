@@ -1,0 +1,4 @@
+curl -o /etc/pacman.d/mirrorlist https://www.archlinux.org/mirrorlist/all/
+sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+awk '/^## Spain$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/mirrorlist.backup | sed 's/^#Server/Server/' | rankmirrors -n 4 - | sudo tee /etc/pacman.d/mirrorlist
+awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/mirrorlist.backup | sed 's/^#Server/Server/' | rankmirrors -n 4 - | sudo tee -a /etc/pacman.d/mirrorlist

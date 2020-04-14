@@ -5,7 +5,7 @@
 
 
 #Las rutas a los dotfiles han de especificarse en el array DOTFILES
-declare -a DOTFILES=("$HOME/.Xresources" "$HOME/.zshrc" "$HOME/.config/kitty" "$HOME/.config/polybar" "$HOME/.config/bspwm" "$HOME/.config/sxhkd" "$HOME/.nanorc" "$HOME/.config/micro")
+declare -a DOTFILES=("$HOME/.Xresources" "$HOME/.zshrc" "$HOME/.config/kitty" "$HOME/.config/polybar" "$HOME/.config/bspwm" "$HOME/.config/sxhkd" "$HOME/.nanorc" "$HOME/.config/micro" "$HOME/.config/lemonbar")
 #--------------------------------------------------------------------------------------------
 
 

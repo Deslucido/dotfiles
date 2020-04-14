@@ -8,16 +8,17 @@
 feh --bg-scale ~/.themes/creamywall.png &
 setxkbmap -layout es &
 
-killall -q sxhkd polybar dunst
+killall -q sxhkd polybar dunst polkit-gnome-authentication-agent-1
 
 while pgrep -u $UID -x sxhkd >/dev/null; do sleep 1; done 
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 while pgrep -u $UID -x dunst >/dev/null; do sleep 1; done
+while pgrep -u $UID -x polkit-gnome-authentication-agent-1 >/dev/null; do sleep 1; done
  
 dunst &
 polybar -c ~/.config/polybar/config/.statusbar "simple" &
 sxhkd &
-
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 
 

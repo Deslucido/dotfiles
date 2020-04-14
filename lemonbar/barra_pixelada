@@ -1,0 +1,50 @@
+#!/usr/bin/bash
+
+
+#### Invocamos los scripts que nos proporcionan los datos sin embellecedores ####
+source "$(dirname "$(realpath "$0")")/scripts"
+
+while true; do #### Embellecemos los scripts ####
+
+	n_INTELuso=$(echo "%{F#41978a}\ue026%{F-}$(INTELuso)%")
+
+	n_INTELtemp=$(echo "%{F#41978a}\ue01d%{F-}$(INTELtemp)°")
+
+	n_NVIDIAuso=$(echo "%{F#a09e13}\ue026%{F-}$(NVIDIAuso)%")
+
+	n_NVIDIAtemp=$(echo "%{F#a09e13}\ue01d%{F-}$(NVIDIAtemp)°")
+
+	n_RAMuso=$(echo "%{F#f3b133}\ue028%{F-}$(RAMuso)%")
+
+	n_hora=$(hora)
+	
+sleep 2; done & # No funciona porque las variabels están en una "subshell"
+
+while true; do #### Embellecemos los scripts ####
+
+	n_volumen () {
+		if [[ $(volumen_mute) == "off" ]]; then echo "\ue04f$(volumen)%"
+		elif (( $(volumen) <= 0 )); then echo "\ue04e$(volumen)%"
+		elif (( $(volumen) > 0 && $(volumen) <= 20 )); then echo "\ue050$(volumen)%"
+		elif (( $(volumen) > 20 )); then echo "\ue05d$(volumen)%"; fi
+	}
+
+	escritorios() {
+		# si $i es 1 caracter -> rodearlo de dos espacios
+		for i in $(bspc query -D -m --names); do  #Como un mismo escritorio se repite por cada monitor, cuando los listo aparecen los de todos los monitores, así que solo cojo los del primer monitor # bspc query -D --names | head -n "$(( $(bspc query -D | wc -l) / $(bspc query -M | wc -l) ))"
+			if [[ $i = $(bspc query -D -d --names) ]]; then escritorios="$escritorios%{B#b43e46} $i %{B-}"
+			else escritorios="$escritorios $i "; fi
+		done
+		echo "$escritorios"
+	}
+
+done & # No funciona porque las variabels están en una "subshell"
+
+
+
+while true; do
+
+	#### Colocamos los scripts en la barra ####
+	echo -e "%{S1}" "%{l}$(escritorios)"  "%{c}música"  "%{r}$n_NVIDIAuso$n_NVIDIAtemp $n_RAMuso $n_INTELuso$n_INTELtemp    2oplano notificacion bateria conex $(n_volumen) $n_hora  "
+
+sleep .1; done | lemonbar -g "x24" -B "#202c33" -o "-6" -f "cherry:pixelsize=12" -o "-6" -f "Siji:Regular:size=8"
