@@ -19,6 +19,7 @@ dunst &
 polybar -c ~/.config/polybar/config/.statusbar "simple" &
 sxhkd &
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+gwe &
 
 
 
@@ -42,7 +43,7 @@ unset i
 # +---------------------+
 bspc config border_width                  4
 bspc config window_gap                    7
-bspc config top_padding                   20 #Tamaño de polybar + gap
+bspc config top_padding                   20 #Tamaño de la barra de status + gap
 bspc config bottom_padding                0
 bspc config left_padding                  0
 bspc config right_padding                 0

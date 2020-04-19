@@ -38,7 +38,7 @@ case $dec in
 	read -p "Push? [Y/N]: " b; [[ $b =~ ^[Yy]$ ]] && git push origin master
 		;;
 -e|-E)
-	[ -d "~/.config" ] && mkdir ~/.config
+	[ -d "~/.config" ] || mkdir ~/.config
 	for i in ${DOTFILES[@]}; do
 		sudo rsync -aAXv --delete $(basename $i) $(dirname $i)
 	done

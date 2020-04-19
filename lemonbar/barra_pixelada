@@ -1,50 +1,108 @@
 #!/usr/bin/bash
 
 
-#### Invocamos los scripts que nos proporcionan los datos sin embellecedores ####
-source "$(dirname "$(realpath "$0")")/scripts"
+# Creamos un archivo, luego haré que se haga temporal, pero de momento lo crearé en la misma carpeta en la que estamos
+cd $(dirname $(realpath $0))
+[ -d "./tempp" ] || mkdir ./tempp
 
-while true; do #### Embellecemos los scripts ####
 
-	n_INTELuso=$(echo "%{F#41978a}\ue026%{F-}$(INTELuso)%")
 
-	n_INTELtemp=$(echo "%{F#41978a}\ue01d%{F-}$(INTELtemp)°")
 
-	n_NVIDIAuso=$(echo "%{F#a09e13}\ue026%{F-}$(NVIDIAuso)%")
 
-	n_NVIDIAtemp=$(echo "%{F#a09e13}\ue01d%{F-}$(NVIDIAtemp)°")
+### SCRIPTS ###
+###############
 
-	n_RAMuso=$(echo "%{F#f3b133}\ue028%{F-}$(RAMuso)%")
 
-	n_hora=$(hora)
+f_2seg() {
+
+	while true; do 
+
+		echo "%{F#41978a}\ue026%{F-}$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print substr(usage,0,2)}')%" > ./tempp/INTELuso
+
+		echo "%{F#41978a}\ue01d%{F-}$(sensors | grep Package | awk '{print substr($4, 2, 2)}')°" > ./tempp/INTELtemp 
+
+		echo "%{F#a09e13}\ue026%{F-}$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits)%" > ./tempp/NVIDIAuso 
+
+		echo "%{F#a09e13}\ue01d%{F-}$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits)°" > ./tempp/NVIDIAtemp 
+
+		echo "%{F#f3b133}\ue028%{F-}$(free | grep Mem | awk '{print substr($3*100/$2,0,2)}')%" > ./tempp/RAMuso 
+
+		echo $(date '+%H:%M') > ./tempp/hora
+
+	sleep 2; done
+
+}; export -f f_2seg
+
+
+f_volumen () {
+
+	while true; do 
+
+		v=$(amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p'| uniq)
+
+		if [[ $(amixer get Master | sed -n 's/^.*\[\(on\|off\).*$/\1/p' | uniq) == "off" ]]; then echo "%{F-}\ue04f$v%" > ./tempp/volumen
+
+		elif (( v <= 0 )); then echo "%{F-}\ue04e$v%" > ./tempp/volumen
+
+		elif (( v > 0 && v <= 20 )); then echo "%{F-}\ue050$v%" > ./tempp/volumen
 	
-sleep 2; done & # No funciona porque las variabels están en una "subshell"
+		elif (( v > 20 )); then echo "%{F-}\ue05d$v%" > ./tempp/volumen; fi
 
-while true; do #### Embellecemos los scripts ####
+	done
 
-	n_volumen () {
-		if [[ $(volumen_mute) == "off" ]]; then echo "\ue04f$(volumen)%"
-		elif (( $(volumen) <= 0 )); then echo "\ue04e$(volumen)%"
-		elif (( $(volumen) > 0 && $(volumen) <= 20 )); then echo "\ue050$(volumen)%"
-		elif (( $(volumen) > 20 )); then echo "\ue05d$(volumen)%"; fi
-	}
+}; export -f f_volumen
 
-	escritorios() {
-		# si $i es 1 caracter -> rodearlo de dos espacios
+
+f_escritorios() {
+
+	while true; do 
+
+		escritorios=""
+
 		for i in $(bspc query -D -m --names); do  #Como un mismo escritorio se repite por cada monitor, cuando los listo aparecen los de todos los monitores, así que solo cojo los del primer monitor # bspc query -D --names | head -n "$(( $(bspc query -D | wc -l) / $(bspc query -M | wc -l) ))"
 			if [[ $i = $(bspc query -D -d --names) ]]; then escritorios="$escritorios%{B#b43e46} $i %{B-}"
 			else escritorios="$escritorios $i "; fi
 		done
-		echo "$escritorios"
-	}
 
-done & # No funciona porque las variabels están en una "subshell"
+		echo "$escritorios" > ./tempp/escritorios
+
+	done
+
+}; export -f f_escritorios
 
 
+
+
+
+
+#### LLAMAMOS A LOS LOOPS ####
+##############################
+
+#Eliminar procesos en caso de aborto (Como tú)
+sem --ungroup -j 3 -j +3 f_2seg
+sem --ungroup -j 3 -j +3 f_volumen
+[[ $(bspc query) = "Failed to connect to the socket." ]] || sem --ungroup -j 3 -j +3 f_escritorios
+
+
+
+
+#### LOOP FINAL ####
+####################
 
 while true; do
 
-	#### Colocamos los scripts en la barra ####
-	echo -e "%{S1}" "%{l}$(escritorios)"  "%{c}música"  "%{r}$n_NVIDIAuso$n_NVIDIAtemp $n_RAMuso $n_INTELuso$n_INTELtemp    2oplano notificacion bateria conex $(n_volumen) $n_hora  "
+	# Leemos los resultados y los guardamos en variables
+	escritorios=$(cat ./tempp/escritorios)
+	NVIDIAuso=$(cat ./tempp/NVIDIAuso)
+	NVIDIAtemp=$(cat ./tempp/NVIDIAtemp)
+	RAMuso=$(cat ./tempp/RAMuso)
+	INTELuso=$(cat ./tempp/INTELuso)
+	INTELtemp=$(cat ./tempp/INTELtemp)
+	hora=$(cat ./tempp/hora)
+	volumen=$(cat ./tempp/volumen)
 
-sleep .1; done | lemonbar -g "x24" -B "#202c33" -o "-6" -f "cherry:pixelsize=12" -o "-6" -f "Siji:Regular:size=8"
+
+	# Escribimos la barra
+	echo -e "%{S1}" "%{l}$escritorios"  "%{c}música"  "%{r}$NVIDIAuso$NVIDIAtemp $RAMuso $INTELuso$INTELtemp    2oplano notificacion bateria conex $volumen $hora  "
+
+done | lemonbar -g "x24" -B "#202c33" -o "-6" -f "cherry:pixelsize=12" -o "-6" -f "Siji:Regular:size=8"
