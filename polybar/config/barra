@@ -1,0 +1,35 @@
+;==========================================================
+;======================== BARRAS ==========================
+;==========================================================
+[bar/simple]
+monitor = ${env:MONITOR:DVI-D-0}
+monitor-fallback = ${env:MONITOR:HDMI-0}
+modules-left = hola
+font-0 = "cherry:pixelsize=12;2"
+font-1 = "Siji:size=20;2"
+background = #202C33
+
+
+
+
+
+[module/fecha]
+type = custom/script
+exec = $HOME/.config/polybar/config/fecha.sh
+tail = true
+click-left = kill -USR1 %pid%
+
+
+[module/hola]
+type = custom/script
+exec = "echo hola"
+
+
+;módulos que me gustaría ver:
+;hora con fecha debajo que despleguen un calendario cuando se clicke
+;temperatura y uso de cpu, gpu y ram que al clicar aparezca en el caso de la gpu el menú de opciones y en el de la cpu y ram una lista de procesos
+;canción que se está reproduciendo y botones multimedia
+;notificaciones desplegables
+;
+;
+;

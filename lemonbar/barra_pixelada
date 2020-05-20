@@ -1,79 +1,76 @@
 #!/usr/bin/bash
 
-
 # Creamos un archivo, luego haré que se haga temporal, pero de momento lo crearé en la misma carpeta en la que estamos
-cd $(dirname $(realpath $0))
+cd "$(dirname "$(realpath "$0")")" || exit
 [ -d "./tempp" ] || mkdir ./tempp
-
-
-
-
 
 ### SCRIPTS ###
 ###############
 
-
 f_2seg() {
 
-	while true; do 
+	while true; do
 
-		echo "%{F#41978a}\ue026%{F-}$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print substr(usage,0,2)}')%" > ./tempp/INTELuso
+		echo "%{F#41978a}\ue026%{F-}$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print substr(usage,0,2)}')%" >./tempp/INTELuso
 
-		echo "%{F#41978a}\ue01d%{F-}$(sensors | grep Package | awk '{print substr($4, 2, 2)}')°" > ./tempp/INTELtemp 
+		echo "%{F#41978a}\ue01d%{F-}$(sensors | grep Package | awk '{print substr($4, 2, 2)}')°" >./tempp/INTELtemp
 
-		echo "%{F#a09e13}\ue026%{F-}$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits)%" > ./tempp/NVIDIAuso 
+		echo "%{F#a09e13}\ue026%{F-}$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits)%" >./tempp/NVIDIAuso
 
-		echo "%{F#a09e13}\ue01d%{F-}$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits)°" > ./tempp/NVIDIAtemp 
+		echo "%{F#a09e13}\ue01d%{F-}$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits)°" >./tempp/NVIDIAtemp
 
-		echo "%{F#f3b133}\ue028%{F-}$(free | grep Mem | awk '{print substr($3*100/$2,0,2)}')%" > ./tempp/RAMuso 
+		echo "%{F#f3b133}\ue028%{F-}$(free | grep Mem | awk '{print substr($3*100/$2,0,2)}')%" >./tempp/RAMuso
 
-		echo $(date '+%H:%M') > ./tempp/hora
+		echo "$(date '+%H:%M')" >./tempp/hora
 
-	sleep 2; done
+		sleep 2
+	done
 
-}; export -f f_2seg
+}
+export -f f_2seg
 
+f_volumen() {
 
-f_volumen () {
+	while true; do
 
-	while true; do 
+		v=$(amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p' | uniq)
 
-		v=$(amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p'| uniq)
+		if [[ $(amixer get Master | sed -n 's/^.*\[\(on\|off\).*$/\1/p' | uniq) == "off" ]]; then
+			echo "%{F-}\ue04f$v%" >./tempp/volumen
 
-		if [[ $(amixer get Master | sed -n 's/^.*\[\(on\|off\).*$/\1/p' | uniq) == "off" ]]; then echo "%{F-}\ue04f$v%" > ./tempp/volumen
+		elif ((v <= 0)); then
+			echo "%{F-}\ue04e$v%" >./tempp/volumen
 
-		elif (( v <= 0 )); then echo "%{F-}\ue04e$v%" > ./tempp/volumen
+		elif ((v > 0 && v <= 20)); then
+			echo "%{F-}\ue050$v%" >./tempp/volumen
 
-		elif (( v > 0 && v <= 20 )); then echo "%{F-}\ue050$v%" > ./tempp/volumen
-	
-		elif (( v > 20 )); then echo "%{F-}\ue05d$v%" > ./tempp/volumen; fi
+		elif ((v > 20)); then echo "%{F-}\ue05d$v%" >./tempp/volumen; fi
 
 	done
 
-}; export -f f_volumen
-
+}
+export -f f_volumen
 
 f_escritorios() {
 
-	while true; do 
+	while true; do
 
 		escritorios=""
 
-		for i in $(bspc query -D -m --names); do  #Como un mismo escritorio se repite por cada monitor, cuando los listo aparecen los de todos los monitores, así que solo cojo los del primer monitor # bspc query -D --names | head -n "$(( $(bspc query -D | wc -l) / $(bspc query -M | wc -l) ))"
-			if [[ $i = $(bspc query -D -d --names) ]]; then escritorios="$escritorios%{B#b43e46} $i %{B-}"
+		for i in $(#Como un mismo escritorio se repite por cada monitor, cuando los listo aparecen los de todos los monitores, así que solo cojo los del primer monitor # bspc query -D --names | head -n "$(( $(bspc query -D | wc -l) / $(bspc query -M | wc -l) ))"
+			bspc query -D -m --names
+		); do
+			if [[ $i = $(bspc query -D -d --names) ]]; then
+				escritorios="$escritorios%{B#b43e46} $i %{B-}"
 			else escritorios="$escritorios $i "; fi
 		done
 
-		echo "$escritorios" > ./tempp/escritorios
+		echo "$escritorios" >./tempp/escritorios
 
 	done
 
-}; export -f f_escritorios
-
-
-
-
-
+}
+export -f f_escritorios
 
 #### LLAMAMOS A LOS LOOPS ####
 ##############################
@@ -82,9 +79,6 @@ f_escritorios() {
 sem --ungroup -j 3 -j +3 f_2seg
 sem --ungroup -j 3 -j +3 f_volumen
 [[ $(bspc query) = "Failed to connect to the socket." ]] || sem --ungroup -j 3 -j +3 f_escritorios
-
-
-
 
 #### LOOP FINAL ####
 ####################
@@ -101,8 +95,7 @@ while true; do
 	hora=$(cat ./tempp/hora)
 	volumen=$(cat ./tempp/volumen)
 
-
 	# Escribimos la barra
-	echo -e "%{S1}" "%{l}$escritorios"  "%{c}música"  "%{r}$NVIDIAuso$NVIDIAtemp $RAMuso $INTELuso$INTELtemp    2oplano notificacion bateria conex $volumen $hora  "
+	echo -e "%{S1}" "%{l}$escritorios" "%{c}música" "%{r}$NVIDIAuso$NVIDIAtemp $RAMuso $INTELuso$INTELtemp    2oplano notificacion bateria conex $volumen $hora  "
 
 done | lemonbar -g "x24" -B "#202c33" -o "-6" -f "cherry:pixelsize=12" -o "-6" -f "Siji:Regular:size=8"
