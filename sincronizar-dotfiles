@@ -23,7 +23,7 @@ if [ -z "$dec" ]; then
 	|                                |
 	|  Cualquier otra tecla · Salir  |
 	+--------------------------------+"
-	read -p "Escoge: " dec
+	read -rp "Escoge: " dec
 	dec=$(echo "-$dec")
 fi
 
@@ -34,13 +34,13 @@ case $dec in
 	;;
 -g|-G)
 	git add --all ; git status; echo " "
-	read -p "Commit? [Y/N]: " a; [[ $a =~ ^[Yy]$ ]] && git commit -m "`date`"
-	read -p "Push? [Y/N]: " b; [[ $b =~ ^[Yy]$ ]] && git push origin master
+	read -rp "Commit? [Y/N]: " a; [[ $a =~ ^[Yy]$ ]] && git commit -m "`date`"
+	read -rp "Push? [Y/N]: " b; [[ $b =~ ^[Yy]$ ]] && git push origin master
 		;;
 -e|-E)
 	[ -d "$HOME/.config" ] || mkdir ~/.config
 	for i in "${DOTFILES[@]}"; do
-		sudo rsync -aAXv --delete "$(basename $i)" "$(dirname $i)"
+		sudo rsync -aAXv --delete "$(basename "$i")" "$(dirname "$i")"
 	done
 	;;
 *)
