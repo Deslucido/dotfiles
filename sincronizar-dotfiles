@@ -1,17 +1,17 @@
 #!/bin/bash
 
-#Este script ha de mantenerse en el directorio de git donde se requieren los dotfiles, de lo contrario cd $(dirname $(realpath $0)) fallará.
-#Este script tiene rsync, git, coreutils, sudo y bash como dependencias
+# Este script ha de mantenerse en el directorio de git donde se requieren los dotfiles, de lo contrario cd $(dirname $(realpath $0)) fallará.
+# Este script tiene rsync, git, coreutils, sudo y bash como dependencias
 
 
-#Las rutas a los dotfiles han de especificarse en el array DOTFILES
+# Las rutas a los dotfiles han de especificarse en el array DOTFILES
 declare -a DOTFILES=("$HOME/.Xresources" "$HOME/.zshrc" "$HOME/.config/kitty" "$HOME/.config/polybar" "$HOME/.config/bspwm" "$HOME/.config/sxhkd" "$HOME/.nanorc" "$HOME/.config/micro" "$HOME/.config/lemonbar")
 #--------------------------------------------------------------------------------------------
 
 
 
 cd "$(dirname "$(realpath "$0")")" || exit
-dec=$@
+dec=$* # TODO: Esto tengo que modificarlo para no necesitar declarar una variable
 
 
 if [ -z "$dec" ]; then
