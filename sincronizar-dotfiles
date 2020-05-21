@@ -5,7 +5,7 @@
 
 
 # Las rutas a los dotfiles han de especificarse en el array DOTFILES
-declare -a DOTFILES=("$HOME/.Xresources" "$HOME/.zshrc" "$HOME/.config/kitty" "$HOME/.config/polybar" "$HOME/.config/bspwm" "$HOME/.config/sxhkd" "$HOME/.nanorc" "$HOME/.config/micro" "$HOME/.config/lemonbar")
+declare -a DOTFILES=("$HOME/.Xresources" "$HOME/.zshrc" "$HOME/.config/kitty" "$HOME/.config/polybar" "$HOME/.config/bspwm" "$HOME/.config/sxhkd" "$HOME/.nanorc" "$HOME/.config/micro" "$HOME/.config/lemonbar" "$HOME/.mozilla/firefox/ojt8tp6c.default-release/chrome")
 #--------------------------------------------------------------------------------------------
 
 
@@ -38,7 +38,7 @@ case $dec in
 	read -rp "Push? [Y/N]: " b; [[ $b =~ ^[Yy]$ ]] && git push origin master
 		;;
 -e|-E)
-	[ -d "$HOME/.config" ] || mkdir ~/.config
+	[ -d "$HOME/.config" ] || mkdir ~/.config # TODO: Encontrar la manera de que las carpetas contenedoras se autogeneren por muchas que sean
 	for i in "${DOTFILES[@]}"; do
 		sudo rsync -aAXv --delete "$(basename "$i")" "$(dirname "$i")"
 	done
