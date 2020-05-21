@@ -34,7 +34,7 @@ case $dec in
 	;;
 -g|-G)
 	git add --all ; git status; echo " "
-	read -rp "Commit? [Y/N]: " a; [[ $a =~ ^[Yy]$ ]] && git commit -m "`date`"
+	read -rp "Commit? [Y/N]: " a; [[ $a =~ ^[Yy]$ ]] && git commit -m "$(date)"
 	read -rp "Push? [Y/N]: " b; [[ $b =~ ^[Yy]$ ]] && git push origin master
 		;;
 -e|-E)
