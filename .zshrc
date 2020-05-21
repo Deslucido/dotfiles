@@ -24,7 +24,7 @@ alias p="sudo pacman"
 alias act="bash ~/.configpersonal/.pacmancito && sudo pacman -Syu"
 alias barra='f(){ killall -q polybar; polybar -c ~/.config/polybar/config/.statusbar "$@" & disown;  unset -f f; }; f'
 alias kbarra='killall -q polybar'
-alias sincronizar='sh ~/Documents/Git/dotfiles/sincronizar-dotfiles'
+alias sincronizar='bash $HOME/Documentos/Git/dotfiles/sincronizar-dotfiles'
 
 alias árbol="tree -CA"
 alias ls="ls -hN --color=auto --group-directories-first"

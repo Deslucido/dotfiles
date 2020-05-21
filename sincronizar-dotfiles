@@ -27,7 +27,7 @@ if [ -z "$dec" ]; then
 	dec=$(echo "-$dec")
 fi
 
-case $dec in
+case $dec in # TODO: Encontrar la manera de que acepte atributos compinados como "-SG"
 -s|-S)
 	sudo rsync -aAXv --delete "${DOTFILES[@]}" .
 	echo " "; ls -hNA --color=auto --group-directories-first; echo " "; git status; echo " "
