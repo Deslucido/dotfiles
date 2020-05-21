@@ -10,7 +10,7 @@ declare -a DOTFILES=("$HOME/.Xresources" "$HOME/.zshrc" "$HOME/.config/kitty" "$
 
 
 
-cd $(dirname $(realpath $0))
+cd "$(dirname "$(realpath "$0")")" || exit
 dec=$@
 
 
@@ -24,12 +24,12 @@ if [ -z "$dec" ]; then
 	|  Cualquier otra tecla · Salir  |
 	+--------------------------------+"
 	read -p "Escoge: " dec
-	dec=$(echo -$dec)
+	dec=$(echo "-$dec")
 fi
 
 case $dec in
 -s|-S)
-	sudo rsync -aAXv --delete ${DOTFILES[@]} .
+	sudo rsync -aAXv --delete "${DOTFILES[@]}" .
 	echo " "; ls -hNA --color=auto --group-directories-first; echo " "; git status; echo " "
 	;;
 -g|-G)
@@ -38,9 +38,9 @@ case $dec in
 	read -p "Push? [Y/N]: " b; [[ $b =~ ^[Yy]$ ]] && git push origin master
 		;;
 -e|-E)
-	[ -d "~/.config" ] || mkdir ~/.config
-	for i in ${DOTFILES[@]}; do
-		sudo rsync -aAXv --delete $(basename $i) $(dirname $i)
+	[ -d "$HOME/.config" ] || mkdir ~/.config
+	for i in "${DOTFILES[@]}"; do
+		sudo rsync -aAXv --delete "$(basename $i)" "$(dirname $i)"
 	done
 	;;
 *)
